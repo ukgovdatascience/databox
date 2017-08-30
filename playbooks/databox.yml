@@ -1,0 +1,25 @@
+- name: "Install Docker and needed tools on the EC2 DataBox"
+  hosts: all
+  become: true
+
+  tasks:
+    - name: ensure repository key is installed
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: ensure docker registry is available
+      # Ubuntu 16.04 source https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#install-using-the-repository
+      apt_repository: repo='deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
+
+    - name: ensure docker and dependencies are installed
+      apt: name=docker-ce update_cache=yes
+
+    - name: add ubuntu user to docker group
+      user:
+        name: ubuntu
+        state: present
+        groups: docker
+        append: yes
+
+    - service: name=docker state=restarted
