@@ -1,3 +1,4 @@
 - Get AWS availability zone dinamically
 - Get key-pair suffix as parameter using whoami
 - restrict SSH access to white listed IPs https://sites.google.com/a/digital.cabinet-office.gov.uk/gds-internal-it/news/aviationhouse-sourceipaddresses
+- document how to add the SSH key to the OSX agent

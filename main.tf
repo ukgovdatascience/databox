@@ -6,11 +6,6 @@ variable "public_key_path" {
   default = "~/.ssh/id_rsa.pub"
 }
 
-variable "private_key_path" {
-  description = "Enter the path to the SSH Private Key to be used by provisioner"
-  default = "~/.ssh/id_rsa"
-}
-
 provider "aws" {
     region = "${var.aws_region}"
     profile = "gds-data"
@@ -75,8 +70,7 @@ resource "aws_instance" "box" {
         connection {
             type        = "ssh"
             user        = "ubuntu"
-            agent       = false
-            private_key = "${file(var.private_key_path)}"
+            agent       = true
         }
     }
 
