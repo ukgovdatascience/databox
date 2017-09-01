@@ -5,6 +5,7 @@ Infrastructure as a code for Data Science processing machine
 
 * Terraform
 * Ansible
+* An [SSH key added to the SSH agent](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/).
 
 ## Create the AWS infrastructure
 
@@ -28,7 +29,7 @@ ec2_ip = 35.177.7.160
 ansible-playbook -i '35.177.7.160,' -K playbooks/databox.yml -u ubuntu
 ```
 
-*Note:* the correct IP address that has been shown in the output must be used
+*Note:* the correct IP address that has been shown in the output must be used. *The IP address must be followed by a comma!*
 
 ## Connect to the databox
 
