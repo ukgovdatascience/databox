@@ -1,4 +1,4 @@
-variable "aws_region" { default = "eu-west-1" } # London
+variable "aws_region" { default = "eu-west-2" } # London
 variable "username" { default = "databoxuser"}
 variable "instance_type" {default = "t2.micro" }
 
