@@ -1,4 +1,4 @@
-variable "aws_region" { default = "eu-west-2" } # London
+variable "aws_region" { default = "eu-west-1" } # London
 variable "username" { default = "databoxuser"}
 
 variable "public_key_path" {
@@ -53,6 +53,7 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "box" {
     ami           = "${data.aws_ami.ubuntu.id}"
+    availability_zone = "${var.aws_region}a"
     instance_type = "t2.micro"
     security_groups = [
         "${aws_security_group.allow_all_ssh.name}",
