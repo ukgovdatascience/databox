@@ -1,5 +1,6 @@
 variable "aws_region" { default = "eu-west-2" } # London
 variable "username" { default = "databoxuser"}
+variable "instance_type" {default = "t2.micro" }
 
 variable "public_key_path" {
   description = "Enter the path to the SSH Public Key to add to AWS."
@@ -53,7 +54,8 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "box" {
     ami           = "${data.aws_ami.ubuntu.id}"
-    instance_type = "t2.micro"
+    availability_zone = "${var.aws_region}a"
+    instance_type = "${var.instance_type}"
     security_groups = [
         "${aws_security_group.allow_all_ssh.name}",
         "${aws_security_group.allow_all_outbound.name}"

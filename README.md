@@ -23,6 +23,16 @@ Outputs:
 ec2_ip = 35.177.7.160
 ```
 
+### Changing region and instance types
+
+Different tasks will require different [instance](https://aws.amazon.com/ec2/instance-types/) types. 
+However, some instance types are not available in each region, so it may be necessary to change region.
+Instance type and region can thus be set as arguments along with `terraform apply`:
+
+```
+terraform apply --var username=user --var aws_region=eu-west-1 --var instance_type=c4.2xlarge
+```
+
 ## Install Docker and other tools on the databox
 
 ```
