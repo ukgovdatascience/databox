@@ -7,3 +7,4 @@
 
 # Ansible
 *.retry
+playbooks/databox.retry
