@@ -67,7 +67,7 @@ Server:
  Experimental: false
 ```
 
-#### Desroying the databox
+#### Destroying the databox
 
 The resources can later be destroyed with:
 
