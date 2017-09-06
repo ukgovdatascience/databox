@@ -42,7 +42,7 @@ case "$1" in
         export INSTANCE="t2.micro"
     fi
 
-    # Launc Terraform passing that user as parameter
+    # Launch Terraform passing that user as parameter
     terraform apply --var username=$USERNAME --var aws_region=$REGION --var instance_type=$INSTANCE
 
     # Get DataBox IP from state after the script completes
@@ -52,7 +52,7 @@ case "$1" in
     ansible-playbook -i "$DATABOX_IP," -K playbooks/databox.yml -u ubuntu
     ;;
 "down") echo  "Destroying DataBox"
-    terraform destroy
+    terraform destroy --var aws_region=$REGION
     ;;
 *)  echo "DataBox - create and destroy AWS instances for Data Science"
     echo "./databox.sh up - Create a DataBox"
