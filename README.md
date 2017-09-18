@@ -86,7 +86,7 @@ It should not usually be necessary to specify a username using `-u` unless you a
 Note that if you create a databox by specifying region this way, you must also pass the region (`-r`) variable to the `./databox.sh down` command:
 
 ```
-./databox.sh -r eu-west-1
+./databox.sh -r eu-west-1 down
 ```
 
 *NOTE: Failing to pass the correct region argument to the `./databox.sh down` command will result in your resources not being found, and consequently, not destroyed.*
