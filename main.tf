@@ -12,15 +12,18 @@ provider "aws" {
     profile = "gds-data"
 }
 
-resource "aws_security_group" "allow_all_ssh" {
+resource "aws_security_group" "allow_ssh_from_gds" {
   name_prefix = "DataBox-SecurityGroup-SSH"
-  description = "Allow all inbound SSH traffic"
+  description = "Allow inbound SSH traffic from GDS IPs"
 
   ingress = {
     from_port = 22
     to_port = 22
     protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [
+        "80.194.77.90/32", "80.194.77.100/32", "213.86.153.212/32",
+        "213.86.153.213/32", "213.86.153.214/32", "213.86.153.235/32",
+        "213.86.153.236/32", "213.86.153.237/32", "85.133.67.244/32"]
   }
 }
 
@@ -57,7 +60,7 @@ resource "aws_instance" "box" {
     availability_zone = "${var.aws_region}a"
     instance_type = "${var.instance_type}"
     security_groups = [
-        "${aws_security_group.allow_all_ssh.name}",
+        "${aws_security_group.allow_ssh_from_gds.name}",
         "${aws_security_group.allow_all_outbound.name}"
         ]
     key_name = "${aws_key_pair.auth.key_name}"
