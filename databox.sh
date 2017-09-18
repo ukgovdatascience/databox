@@ -52,6 +52,11 @@ case "$1" in
     ansible-playbook -i "$DATABOX_IP," -K playbooks/databox.yml -u ubuntu
     ;;
 "down") echo  "Destroying DataBox"
+    # If I don't specify the region use a default value
+    if [ -z "${REGION+x}" ]; then
+        export REGION="eu-west-2"
+    fi
+    
     terraform destroy --var aws_region=$REGION
     ;;
 *)  echo "DataBox - create and destroy AWS instances for Data Science"
