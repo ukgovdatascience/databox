@@ -3,9 +3,15 @@ Infrastructure as a code for Data Science processing machine
 
 ## Requirements
 
-* Aws cli (you will need to configure a profile with `aws configure --profile gds-data`. For this you will need an aws access key with the relevant permissions against your IAM account)
+### Python
+
+Python requirements can be installed with `pip install -r requirements.txt`. Note that ansible requires a python 2.7 virtual environment at time of writing.
+
+You will need to configure an AWS command line profile with `aws configure --profile gds-data`. For this you will need an aws access key with the relevant permissions against your IAM account.
+
+### Other
+
 * Terraform
-* Ansible (note that ansible requires python 2.7, so it would be best to set this up as a virtual environment using virtualenv)
 * An [SSH key added to the SSH agent](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/).
 
 ## Create the AWS infrastructure
