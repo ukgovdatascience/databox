@@ -17,6 +17,10 @@ case $key in
     INSTANCE="$2"
     shift # past argument
     ;;
+    -v|--volume_size)
+    VOLUME_SIZE="$2"
+    shift # past argument
+    ;;
     *)
             # unknown option
     ;;
@@ -42,8 +46,13 @@ case "$1" in
         export INSTANCE="t2.micro"
     fi
 
+    # If I don't specify the instance type use a default value
+    if [ -z "${VOLUME_SIZE+x}" ]; then
+        export INSTANCE="40"
+    fi
+
     # Launch Terraform passing that user as parameter
-    terraform apply --var username=$USERNAME --var aws_region=$REGION --var instance_type=$INSTANCE
+    terraform apply --var username=$USERNAME --var aws_region=$REGION --var instance_type=$INSTANCE --var volume_size=$VOLUME_SIZE
 
     # Get DataBox IP from state after the script completes
     export DATABOX_IP=`terraform output ec2_ip`
@@ -65,5 +74,6 @@ case "$1" in
     echo "  -r|--region - AWS region"
     echo "  -u|--username - Username used to name the AWS objects"
     echo "  -i|--instance - AWS instance type"
+    echo "  -v|--volume_size - EBS volume size"
     echo "./databox.sh down - Destroy the DataBox"
 esac
