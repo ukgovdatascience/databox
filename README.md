@@ -25,6 +25,7 @@ This will use the default settings which are:
 |-r|aws_region|eu-west-2 (london)|
 |-i|instance_type|t2.micro. A list of other available instance types can be found [here](https://aws.amazon.com/ec2/instance-types/)|
 |-u|username|A lookup will be performed using the bash command `whoami`|
+|-v|volume_size|Elastic Block Store volume (hard drive) size|
 
 *NOTE: Ansible will require you to enter your local sudo password before continuing.*
 
