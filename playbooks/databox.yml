@@ -22,4 +22,23 @@
         groups: docker
         append: yes
 
+    - name: format the EBS filesystem
+      filesystem:
+        fstype: ext4
+        dev: /dev/xvdh
+
+    - name: configure the EBS volume mount point
+      mount:
+        path: /data
+        src: /dev/xvdh
+        fstype: ext4
+        state: present
+
+    - name: mount the EBS volume
+      mount:
+        path: /data
+        src: /dev/xvdh
+        fstype: ext4
+        state: mounted
+
     - service: name=docker state=restarted
