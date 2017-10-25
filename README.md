@@ -74,6 +74,74 @@ Server:
  Experimental: false
 ```
 
+#### Mounting EBS volumes (hard drive storage)
+
+To make an Elastic Block Store (EBS) volume available to the databox, there a few steps you need to follow. These steps are defined in the amazon web services [documentation](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html), and replicated in brief here.
+
+List available disk devices (having set up a databox with the -v argument):
+
+```
+ubuntu:~$ lsblk
+NAME    MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+xvda    202:0    0   8G  0 disk
+└─xvda1 202:1    0   8G  0 part /
+xvdh    202:112  0  80G  0 disk
+```
+
+We want to connect the *xvdh* disk. First we need to check whether it has a file system:
+
+```
+ubuntu:~$ sudo file -s /dev/xvdh
+/dev/xvdh: data
+```
+
+If the command returns only `/dev/xvdh: data` it means that there is no filesystem on the device, and this needs to be created.
+
+```
+ubuntu:~$ sudo mkfs -t ext4 /dev/xvdh
+mke2fs 1.42.13 (17-May-2015)
+Creating filesystem with 20971520 4k blocks and 5242880 inodes
+Filesystem UUID: ebc4eb4a-b481-4aa4-b49c-32f5a12e160b
+Superblock backups stored on blocks:
+        32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208,
+        4096000, 7962624, 11239424, 20480000
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (32768 blocks): done
+Writing superblocks and filesystem accounting information: done
+```
+
+If the device returns something else, then there is already a filesystem, and you are good to go. In either case, you want to get to a situation where the command `sudo file -s /dev/xvdh` gives a response:
+
+```
+ubuntu:~$ sudo file -s /dev/xvdh
+/dev/xvdh: Linux rev 1.0 ext4 filesystem data, UUID=ebc4eb4a-b481-4aa4-b49c-32f5a12e160b (extents) (large files) (huge files)
+```
+
+Finally the device needs to be mounted to an existing directory e.g. `/data`.
+
+```
+ubuntu:~$ sudo mkdir /data
+ubuntu:~$ sudo mount /dev/xvdh /data
+```
+
+This will need re-mount the device every time the instance reboots unless you add an entry to your /etc/fstab file. More in-depth instructions for doing this are provided in the [AWS documentation])(http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html). 
+
+Following the example above, first create a copy of your fstab in case you need to restore it:
+
+```
+sudo cp /etc/fstab /etc/fstab.orig
+```
+
+Then the following line would need to be added to /etc/fstab (based on the example above) where the UUID matches the UUID of the devide (obtainable from `sudo file -s /dev/xvdh`).
+
+```
+UUID=ebc4eb4a-b481-4aa4-b49c-32f5aa56210b       /data   ext4    defaults,nofail 0       2
+```
+
+Following this, run `sudo mount -a` to ensure that the device is mountable. If not, restore your original fstab and start again. Unmountable drives in the fstab may cause the instance to fail to boot.
+
 #### Destroying the databox
 
 The resources can later be destroyed with:
