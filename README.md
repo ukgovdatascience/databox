@@ -76,7 +76,9 @@ Server:
 
 #### Mounting EBS volumes (hard drive storage)
 
-To make an Elastic Block Store (EBS) volume available to the databox, there a few steps you need to follow. These steps are defined in the amazon web services [documentation](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html), and replicated in brief here.
+New Elastic Block Store (EBS) volumes will be mounted at `/data` within the instance, so all outputs should be saved here, rather than to the root file system of the instance (otherwise you will quickly run out of space, and it will be difficult to persist).
+
+Manual instructions for mounting an EBS volume are defined in the amazon web services [documentation](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html). This is only likely to be necessary if you are restoring a volume from a previous snapshot. The instructions are replicated in brief here.
 
 List available disk devices (having set up a databox with the -v argument):
 
