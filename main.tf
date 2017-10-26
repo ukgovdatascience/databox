@@ -8,6 +8,11 @@ variable "public_key_path" {
   default = "~/.ssh/id_rsa.pub"
 }
 
+variable "ami_id" {
+  default     = "" # Note this is empty.
+  description = "Use this specific AMI ID for our EC2 instance. Default is Ubuntu 16.04 LTS in the current region"
+}
+
 provider "aws" {
     region = "${var.aws_region}"
     profile = "gds-data"
@@ -57,7 +62,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "box" {
-    ami           = "${data.aws_ami.ubuntu.id}"
+    ami = ${var.ami_id != "" ? var.ami_id : data.aws_ami.ubuntu.id}"
     availability_zone = "${var.aws_region}a"
     instance_type = "${var.instance_type}"
     security_groups = [
