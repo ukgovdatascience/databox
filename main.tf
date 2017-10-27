@@ -62,7 +62,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "box" {
-    ami = ${var.ami_id != "" ? var.ami_id : data.aws_ami.ubuntu.id}"
+    ami = "${var.ami_id != "" ? var.ami_id : data.aws_ami.ubuntu.id}"
     availability_zone = "${var.aws_region}a"
     instance_type = "${var.instance_type}"
     security_groups = [
