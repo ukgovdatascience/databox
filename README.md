@@ -32,8 +32,21 @@ This will use the default settings which are:
 |-i|instance_type|t2.micro. A list of other available instance types can be found [here](https://aws.amazon.com/ec2/instance-types/)|
 |-u|username|A lookup will be performed using the bash command `whoami`|
 |-v|volume_size|Elastic Block Store volume (hard drive) size|
+|-a|ami_id|ID of a specific image (e.g.: ami-dca37ea5). If left unset, will default to ubuntu. Note that some amis are only available in specific regions, which will need to be specified with `-r`. Note that these images will incur an additional cost.|
 
 *NOTE: Ansible will require you to enter your local sudo password before continuing.*
+
+#### Choosing a custom ami
+
+If you wish to create an instance with some software already configured, you can use a custom ami, for example a [deep learning ami](https://aws.amazon.com/marketplace/pp/B06VSPXKDX).
+
+This ami is limited to the eu-west-1 region, so to launch the instance on a p2 (gpu optimised instance - note that it is not campatible with the new p3 instance) use the following command:
+
+```
+./databox.sh -a ami-dca37ea5 -r eu-west-1 -i p2.xlarge up
+```
+
+Note that the p2/p3 gpu optimised instances are relatively expensive. The above command will launch a databox that costs $0.972/h at current prices, without the cost of data transfer and storage.
 
 #### Connecting to your databox
 
