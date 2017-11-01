@@ -263,3 +263,41 @@ From the local machine (again replacing 0.0.0.0 with the actual IP of the remote
 scp -r ubuntu@0.0.0.0:/home/ubuntu/govuk-lda-tagger-image/output ./
 ```
 
+## Keep process running while disconnecting from SSH
+
+It is possible to keep a process running in the background and being able to disconnect from SSH or from the VPN and resume at anytime.
+
+This is very useful in case we want to run a very long process and we don't want to keep our laptop on or connected all the time.
+
+Our Databox comes with an utility called **screen**.
+
+To use it, we just need to type ```screen``` after we connect with **SSH**, a presentation screen will appear and we just need to press **SPACE**.
+
+At this point the terminal looks like the initial one, but we are inside a **screen session**.
+
+We can now run any commend that needs to be kept running, for example:
+
+```
+tail -f /var/log/syslog
+```
+
+then we **detach** from this session pressing **CTRL+A+D** simultaneously and we should see something like this:
+
+```
+ubuntu@ip-172-31-6-53:~$ screen
+[detached from 9114.pts-0.ip-172-31-6-53]
+```
+
+at this point we can **exit** the terminal just typing:
+
+```
+exit
+```
+
+Next time we log back with SSH, we just need to type:
+
+```
+screen -r
+```
+
+and we will be back to our session. If we want to terminate the process, instead of pressing **CTRL+A+D** we terminate with CTRL+C as usual and we **exit** the screen session.
