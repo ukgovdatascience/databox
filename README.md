@@ -265,7 +265,7 @@ scp -r ubuntu@0.0.0.0:/home/ubuntu/govuk-lda-tagger-image/output ./
 
 ## Keep process running while disconnecting from SSH
 
-Is it possible to keep a process running in the background and being able to disconnect from SSH or from the VPN and resume at anytime.
+It is possible to keep a process running in the background and being able to disconnect from SSH or from the VPN and resume at anytime.
 
 This is very useful in case we want to run a very long process and we don't want to keep our laptop on or connected all the time.
 
