@@ -7,7 +7,7 @@ Infrastructure as a code for Data Science processing machine
 
 Python requirements can be installed with `pip install -r requirements.txt`. Note that ansible requires a python 2.7 virtual environment at time of writing.
 
-You will need to install the aws command line tools using `brew install aws`, then configure an AWS command line profile with `aws configure --profile gds-data`. For this you will need an aws access key with the relevant permissions against your IAM account.
+You will need to install the aws command line tools using `brew install aws`, then configure an AWS command line profile with `aws configure --profile gds-data`. For this you will need an aws access key with the relevant permissions against your IAM account. When asked to set a default region set `eu-west-2` (London), and default format `json`.
 
 ### Other
 
