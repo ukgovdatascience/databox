@@ -36,6 +36,15 @@ This will use the default settings which are:
 
 *NOTE: Ansible will require you to enter your local sudo password before continuing.*
 
+You can use the arguments in the table above to customise your databox, for example:
+
+```
+./databox.sh -r eu-west-1 -i c4.2xlarge up
+```
+
+It should not usually be necessary to specify a username using `-u` unless you are running multiple databox, in which case it is required (this is not recommended).
+
+
 #### Choosing a custom ami
 
 If you wish to create an instance with some software already configured, you can use a custom ami, for example a [deep learning ami](https://aws.amazon.com/marketplace/pp/B06VSPXKDX).
@@ -164,14 +173,6 @@ The resources can later be destroyed with:
 ```
 ./databox.sh down
 ```
-
-You can use the arguments in the table above to customise your databox, for example:
-
-```
-./databox.sh -r eu-west-1 -i c4.2xlarge 
-```
-
-It should not usually be necessary to specify a username using `-u` unless you are running multiple databox, in which case it is required (this is not recommended).
 
 Note that if you create a databox by specifying region this way, you must also pass the region (`-r`) variable to the `./databox.sh down` command:
 
