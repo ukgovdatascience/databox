@@ -9,9 +9,24 @@ Python requirements can be installed with `pip install -r requirements.txt`. Not
 
 You will need to install the aws command line tools using `brew install aws`, then configure an AWS command line profile with `aws configure --profile gds-data`. For this you will need an aws access key with the relevant permissions against your IAM account. When asked to set a default region set `eu-west-2` (London), and default format `json`.
 
+### Terraform
+
+To install Terraform on **OSX** you need to:
+
+```
+brew install terraform
+```
+
+You will also need to **initialise the modules** the first time, before running the databox script. Assuming you are still inside the project folder, please do:
+
+```
+terraform init
+```
+
+this will install the required **AWS module**.
+
 ### Other
 
-* Terraform
 * An [SSH key added to the SSH agent](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/).
 
 ## Create the AWS infrastructure
