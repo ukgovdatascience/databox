@@ -258,8 +258,7 @@ scp input_data.csv ubuntu@0.0.0.0:/home/ubuntu/govuk-lda-tagger-image/input/inpu
 From the local machine (again replacing 0.0.0.0 with the actual IP of the remote machine):
 
 ```
-
-# Specifying `-r` allows a recursive copy of the whole folder
+Specifying `-r` allows a recursive copy of the whole folder
 
 scp -r ubuntu@0.0.0.0:/home/ubuntu/govuk-lda-tagger-image/output ./
 ```
@@ -302,3 +301,40 @@ screen -r
 ```
 
 and we will be back to our session. If we want to terminate the process, instead of pressing **CTRL+A+D** we terminate with CTRL+C as usual and we **exit** the screen session.
+
+# Deeplearning on AWS with databox
+
+Amazon have recently released a number of [new Amazon Machine Images](https://aws.amazon.com/machine-learning/amis/) (AMIs) which can be used with a databox to easily get up and running with deep learning on AWS using a GPU equipped EC2 instance.
+
+## The Conda deep learning image
+
+Whilst conda can be difficult to work with for a lot of applications which require deployment of python code onto a remote machine, the conda deep learning image is a quick way to get set up with deep learning in a pre-prepared virtual environment running both tensorflow and keras in a python 3.6 environment.
+
+To get started on a databox with deep learning you will need the ID of the Conda AMI, which is at time of writing: `ami-1812bb61` for the eu-west-1 (Ireland) region. __Note that this AMI and p (GPU instances) are not currently available in the eu-west-2 (London) region__.
+
+You will also need to choose an instance type which is GPU enabled (note that this is not essential, but your tasks may run significantly faster on a GPU enabled machine). GPU enabled devices are generally expensive, so this should be taken into account when running deep learning tasks, and in particular, debugging should be done on a local machine! Per hour costs range from $0.972 for a p2.xlarge to $26.44 for the latest p3.16xlarge instances.
+
+More information on this AMI and costs can be found at the [marketplace page](https://aws.amazon.com/marketplace/pp/B077GCH38C).
+
+A GPU enabled instance using the conda AMI can thus be set up using:
+
+```
+./databox.sh -a ami-1812bb61 -r eu-west-1 -i p2.xlarge up
+```
+
+NOTE: At present the databox script is not fully compatible with using custom AMIs (see [issue #24](https://github.com/ukgovdatascience/databox/issues/24)) and so certain tasks will fail. Most importantly, the databox volume specified with the `-v` argument, will not be attached. This can be done manually following the instructions above.
+
+## Running jupyter notebooks
+
+The [AWS guide](https://aws.amazon.com/blogs/ai/getting-started-with-the-aws-deep-learning-conda-and-base-amis/) (and [here](https://aws.amazon.com/blogs/ai/get-started-with-deep-learning-using-the-aws-deep-learning-ami/)) provides a good basis for getting started using the conda AMI, which are summarised here.
+
+Once the databox is up, run the following command to connect:
+
+```
+ssh -L localhost:8888:localhost:8888 -i ~/.ssh/id_rsa.pub ubuntu@<databox IP>
+```
+This will set create a tunnel to your localhost, which will enable you view jupyter notebooks in your browser. Run `jupyter notebook`, then copy and paste the uri from the databox session into your browser. 
+
+## Enabling access to S3 buckets
+
+TODO
