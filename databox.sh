@@ -74,6 +74,12 @@ case "$1" in
     if [ -z "${REGION+x}" ]; then
         export REGION="eu-west-2"
     fi
+
+    # Get DataBox IP from state after the script completes
+    export DATABOX_IP=`terraform output ec2_ip`
+    
+    # Run ansible teardown tasks
+    ansible-playbook -i "$DATABOX_IP," -K playbooks/teardown.yml -u ubuntu
     
     terraform destroy --var aws_region=$REGION
     ;;
