@@ -1,0 +1,10 @@
+- name: "Teardown tasks before destroying AWS resources"
+  hosts: all
+  become: true
+
+  tasks:
+    - name: unmount the EBS volume
+      mount:
+        path: /data
+        src: /dev/xvdh
+        state: unmounted
