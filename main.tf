@@ -4,7 +4,7 @@ variable "instance_type" {default = "t2.micro" }
 variable "volume_size" {default = "40" }
 variable "snapshot_id" {
   default = ""
-  descrption = "Specify a snapshot_id to be used when creating the EBS Volume. Note that this snapshot must be in the same region as the instance, and must be the same size or smaller than the volume as specified in volume_size."
+  description = "Specify a snapshot_id to be used when creating the EBS Volume. Note that this snapshot must be in the same region as the instance, and must be the same size or smaller than the volume as specified in volume_size."
 }
 
 variable "public_key_path" {
