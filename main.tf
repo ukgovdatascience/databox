@@ -2,6 +2,7 @@ variable "aws_region" { default = "eu-west-2" } # London
 variable "username" { default = "databoxuser"}
 variable "instance_type" {default = "t2.micro" }
 variable "volume_size" {default = "40" }
+variable "snapshot_id" {default = "" }
 
 variable "public_key_path" {
   description = "Enter the path to the SSH Public Key to add to AWS."
@@ -93,6 +94,7 @@ resource "aws_instance" "box" {
 resource "aws_ebs_volume" "volume" {
     availability_zone = "${var.aws_region}a"
     size = "${var.volume_size}"
+    snapshot_id = "${var.snapshot_id}"
     tags {
         Name = "DataBoxVolume"
     }
