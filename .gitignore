@@ -8,3 +8,4 @@
 # Ansible
 *.retry
 playbooks/databox.retry
+.envrc
