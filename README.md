@@ -48,6 +48,7 @@ This will use the default settings which are:
 |-u|username|A lookup will be performed using the bash command `whoami`|
 |-v|volume_size|Elastic Block Store volume (hard drive) size|
 |-a|ami_id|ID of a specific image (e.g.: ami-dca37ea5). If left unset, will default to ubuntu. Note that some amis are only available in specific regions, which will need to be specified with `-r`. Note that these images will incur an additional cost.|
+|-s|snapshot_id|The id of a snapshot to be loaded onto the EBS volume. The snapshot must be in the same region as specified in `aws_region`, and it must be the same size or smaller than the size of the volume specified in `volume_size`. Note that a snapshot is not saved before the resources are destroyed with `./databox.sh down`: you will need to make a new snapshot at the AWS console to persist the data.|
 
 *NOTE: Ansible will require you to enter your local sudo password before continuing.*
 
@@ -67,10 +68,8 @@ If you wish to create an instance with some software already configured, you can
 This ami is limited to the eu-west-1 region, so to launch the instance on a p2 (gpu optimised instance - note that it is not campatible with the new p3 instance) use the following command:
 
 ```
-./databox.sh -a ami-dca37ea5 -r eu-west-1 -i p2.xlarge up
+./databox.sh -a ami-1812bb61 -r eu-west-1 -i p2.xlarge up
 ```
-
-Note that the p2/p3 gpu optimised instances are relatively expensive. The above command will launch a databox that costs $0.972/h at current prices, without the cost of data transfer and storage.
 
 #### Connecting to your databox
 
