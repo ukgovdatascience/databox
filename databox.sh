@@ -25,8 +25,12 @@ case $key in
     AMI_ID="$2"
     shift # past argument
     ;;
-    *)
+    -s|--snapshot_id)
+    SNAPSHOT_ID="$2"
+    shift # past argument
+    ;;
             # unknown option
+    *)
     ;;
 esac
 shift # past argument or value
@@ -60,8 +64,13 @@ case "$1" in
         export AMI_ID=""
     fi
 
+    # If I don't specify the AMI id set it to empty string
+    if [ -z "${SNAPSHOT_ID+x}" ]; then
+        export SNAPSHOT_ID=""
+    fi
+
     # Launch Terraform passing that user as parameter
-    terraform apply --var username=$USERNAME --var aws_region=$REGION --var instance_type=$INSTANCE --var volume_size=$VOLUME_SIZE --var ami_id=$AMI_ID
+    terraform apply --var username=$USERNAME --var aws_region=$REGION --var instance_type=$INSTANCE --var volume_size=$VOLUME_SIZE --var ami_id=$AMI_ID --var snapshot_id=$SNAPSHOT_ID
 
     # Get DataBox IP from state after the script completes
     export DATABOX_IP=`terraform output ec2_ip`
