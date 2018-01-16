@@ -29,6 +29,10 @@ case $key in
     SNAPSHOT_ID="$2"
     shift # past argument
     ;;
+    -p|--playbook)
+    PLAYBOOK="$2"
+    shift # past argument
+    ;;
             # unknown option
     *)
     ;;
@@ -69,6 +73,10 @@ case "$1" in
         export SNAPSHOT_ID=""
     fi
 
+    # If I don't specify the AMI id set it to the default databox.yml
+    if [ -z "${PLAYBOOK+x}" ]; then
+        export PLAYBOOK="playbooks/databox.yml"
+    fi
     # Launch Terraform passing that user as parameter
     terraform apply --var username=$USERNAME --var aws_region=$REGION --var instance_type=$INSTANCE --var volume_size=$VOLUME_SIZE --var ami_id=$AMI_ID --var snapshot_id=$SNAPSHOT_ID
 
@@ -76,7 +84,7 @@ case "$1" in
     export DATABOX_IP=`terraform output ec2_ip`
 
     # Run Ansible script using the above IP address
-    ansible-playbook -i "$DATABOX_IP," -K playbooks/databox.yml -u ubuntu
+    ansible-playbook -i "$DATABOX_IP," -K "$PLAYBOOK" -u ubuntu
     ;;
 "down") echo  "Destroying DataBox"
     # If I don't specify the region use a default value
@@ -100,5 +108,6 @@ case "$1" in
     echo "  -i|--instance - AWS instance type"
     echo "  -v|--volume_size - EBS volume size"
     echo "  -a|--ami_id - AMI id"
+    echo "  -p|--playbook - Ansible playbook for post deployment tasks"
     echo "./databox.sh down - Destroy the DataBox"
 esac
