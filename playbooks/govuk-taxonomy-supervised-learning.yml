@@ -27,6 +27,7 @@
       git:
         repo: https://github.com/alphagov/govuk-taxonomy-supervised-learning.git
         dest: /home/ubuntu/govuk-taxonomy-supervised-learning
+      become_user: ubuntu
 
     - name: Install necessary python packages
       pip:
@@ -38,3 +39,4 @@
       shell: source .env_aws
       args:
         chdir: /home/ubuntu/govuk-taxonomy-supervised-learning
+      become_user: ubuntu
