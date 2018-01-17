@@ -29,7 +29,15 @@ case $key in
     SNAPSHOT_ID="$2"
     shift # past argument
     ;;
-            # unknown option
+    -d|--snapshot_description)
+    SNAPSHOT_DESCRIPTION="$2"
+    shift # past argument
+    ;;
+    -c|--create_snapshot)
+    CREATE_SNAPSHOT="1"
+    shift # past argument
+    ;;
+	  # unknown option
     *)
     ;;
 esac
@@ -79,9 +87,15 @@ case "$1" in
     ansible-playbook -i "$DATABOX_IP," -K playbooks/databox.yml -u ubuntu
     ;;
 "down") echo  "Destroying DataBox"
+
     # If I don't specify the region use a default value
+    
     if [ -z "${REGION+x}" ]; then
         export REGION="eu-west-2"
+    fi
+
+    if [ -z "${CREATE_SNAPSHOT+x}" ]; then
+        export CREATE_SNAPSHOT=""
     fi
 
     # Get DataBox IP from state after the script completes
@@ -90,7 +104,7 @@ case "$1" in
     # Run ansible teardown tasks
     ansible-playbook -i "$DATABOX_IP," -K playbooks/teardown.yml -u ubuntu
     
-    terraform destroy --var aws_region=$REGION
+    terraform destroy --var aws_region=$REGION --var create_snapshot=$CREATE_SNAPSHOT
     ;;
 *)  echo "DataBox - create and destroy AWS instances for Data Science"
     echo "./databox.sh up - Create a DataBox"
@@ -100,5 +114,7 @@ case "$1" in
     echo "  -i|--instance - AWS instance type"
     echo "  -v|--volume_size - EBS volume size"
     echo "  -a|--ami_id - AMI id"
+    echo "  -s|--create_snapshot - Create a snapshot of the mounted volume prior to destruction"
+    echo "  -d|--snapshot_description - Use in conjunction with --create_snapshot. Description to be appended to snapshots"
     echo "./databox.sh down - Destroy the DataBox"
 esac
