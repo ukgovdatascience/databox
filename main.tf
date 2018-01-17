@@ -1,7 +1,13 @@
 variable "aws_region" { default = "eu-west-2" } # London
 variable "username" { default = "databoxuser"}
-variable "instance_type" {default = "t2.micro" }
-variable "volume_size" {default = "40" }
+variable "instance_type" { default = "t2.micro" }
+variable "volume_size" { default = "40" }
+variable "profile" { default = "gds-data" }
+variable "create_snapshot" { default = "" }
+variable "description" {
+  default = "" 
+  description = "Used when create_snapshot is != ''. Will specify a description to be appended to the snapshots created prior to volume destruction."
+}
 variable "snapshot_id" {
   default = ""
   description = "Specify a snapshot_id to be used when creating the EBS Volume. Note that this snapshot must be in the same region as the instance, and must be the same size or smaller than the volume as specified in volume_size."
@@ -19,7 +25,7 @@ variable "ami_id" {
 
 provider "aws" {
     region = "${var.aws_region}"
-    profile = "gds-data"
+    profile = "${var.profile}"
 }
 
 resource "aws_security_group" "allow_ssh_from_gds" {
@@ -100,6 +106,12 @@ resource "aws_ebs_volume" "volume" {
     snapshot_id = "${var.snapshot_id}"
     tags {
         Name = "DataBoxVolume"
+    }
+
+    provisioner "local-exec" {
+	when = "destroy"
+	command = "if [ ${var.create_snapshot} ]; then aws ec2 create-snapshot --region ${var.aws_region} --volume_id ${aws_ebs_volume.volume_id} --profile ${var.profile} --description ${var.description}; fi;"
+	on_failure = "fail"
     }
 }
 
