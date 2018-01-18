@@ -109,5 +109,6 @@ case "$1" in
     echo "  -v|--volume_size - EBS volume size"
     echo "  -a|--ami_id - AMI id"
     echo "  -p|--playbook - Ansible playbook for post deployment tasks"
+    echo "  -s|--snapshot_id - Id of the snapshot from which to create volume"
     echo "./databox.sh down - Destroy the DataBox"
 esac
