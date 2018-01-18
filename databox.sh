@@ -115,6 +115,6 @@ case "$1" in
     echo "  -v|--volume_size - EBS volume size"
     echo "  -a|--ami_id - AMI id"
     echo "  -s|--snapshot_id - Id of the snapshot from which to create volume"
-    echo "  -s|--create_snapshot - Set this to 1 to create a snapshot of the mounted volume prior to destruction"
+    echo "  -c|--create_snapshot - Set this to 1 to create a snapshot of the mounted volume prior to destruction"
     echo "./databox.sh down - Destroy the DataBox"
 esac
