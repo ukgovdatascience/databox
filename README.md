@@ -49,6 +49,7 @@ This will use the default settings which are:
 |-v|volume_size|Elastic Block Store volume (hard drive) size|
 |-a|ami_id|ID of a specific image (e.g.: ami-dca37ea5). If left unset, will default to ubuntu. Note that some amis are only available in specific regions, which will need to be specified with `-r`. Note that these images will incur an additional cost.|
 |-s|snapshot_id|The id of a snapshot to be loaded onto the EBS volume. The snapshot must be in the same region as specified in `aws_region`, and it must be the same size or smaller than the size of the volume specified in `volume_size`. Note that a snapshot is not saved before the resources are destroyed with `./databox.sh down`: you will need to make a new snapshot at the AWS console to persist the data.|
+|-c|create_snapshot|Can only be passed when calling `./databox.sh down`. Setting this to `1` creates a snapshot of the mounted volume prior to destroying it. The snapshot information will be output to the console in a json.|
 
 *NOTE: Ansible will require you to enter your local sudo password before continuing.*
 
@@ -195,6 +196,14 @@ Note that if you create a databox by specifying region this way, you must also p
 ```
 
 *NOTE: Failing to pass the correct region argument to the `./databox.sh down` command will result in your resources not being found, and consequently, not destroyed.*
+
+You can create a snapshot of the default volume by passing `-c 1` like so:
+
+```
+./databox.sh -r eu-west-1 -c 1 down
+```
+
+Information about the snapshot will be passed to the console as a json.
 
 ### Using terraform and ansible directly
 
