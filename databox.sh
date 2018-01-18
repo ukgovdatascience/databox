@@ -114,7 +114,7 @@ case "$1" in
     echo "  -i|--instance - AWS instance type"
     echo "  -v|--volume_size - EBS volume size"
     echo "  -a|--ami_id - AMI id"
-    echo "  -s|--create_snapshot - Create a snapshot of the mounted volume prior to destruction"
+    echo "  -s|--create_snapshot - Set this to 1 to create a snapshot of the mounted volume prior to destruction"
     echo "  -d|--snapshot_description - Use in conjunction with --create_snapshot. Description to be appended to snapshots"
     echo "./databox.sh down - Destroy the DataBox"
 esac
