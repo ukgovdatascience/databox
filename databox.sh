@@ -73,7 +73,7 @@ case "$1" in
         export SNAPSHOT_ID=""
     fi
 
-    # If I don't specify the AMI id set it to the default databox.yml
+    # If I don't specify a custom playback set it to the default: databox.yml
     if [ -z "${PLAYBOOK+x}" ]; then
         export PLAYBOOK="playbooks/databox.yml"
     fi
