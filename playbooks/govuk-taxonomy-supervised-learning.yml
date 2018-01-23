@@ -34,9 +34,3 @@
         name: scikit-learn
         version: 0.19.1
         virtualenv: /home/ubuntu/anaconda3/envs/tensorflow_p36
-    
-    - name: Set environment variables (sources .env_aws)
-      shell: source .env_aws
-      args:
-        chdir: /home/ubuntu/govuk-taxonomy-supervised-learning
-      become_user: ubuntu
