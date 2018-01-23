@@ -125,3 +125,6 @@ resource "aws_key_pair" "auth" {
 output "ec2_ip" {
     value = "${aws_instance.box.public_ip}"
 }
+output "data_volume_id" {
+    value = "${aws_ebs_volume.volume.id}"
+}
